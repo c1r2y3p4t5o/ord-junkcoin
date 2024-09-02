@@ -8,7 +8,7 @@ use {super::*, bitcoincore_rpc::Auth};
 ))]
 pub(crate) struct Options {
   #[clap(long, help = "Load Luckycoin Core data dir from <LUCKYCOIN_DATA_DIR>.")]
-  pub(crate) dogecoin_data_dir: Option<PathBuf>,
+  pub(crate) luckycoin_data_dir: Option<PathBuf>,
   #[clap(
     long = "chain",
     arg_enum,
@@ -174,7 +174,7 @@ impl Options {
     Ok(client)
   }
 
-  pub(crate) fn dogecoin_rpc_client_for_wallet_command(&self, create: bool) -> Result<Client> {
+  pub(crate) fn luckycoin_rpc_client_for_wallet_command(&self, create: bool) -> Result<Client> {
     let client = self.luckycoin_rpc_client()?;
 
     const MIN_VERSION: usize = 1140600;
