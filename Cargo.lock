@@ -533,7 +533,7 @@ dependencies = [
 [[package]]
 name = "bitcoincore-rpc"
 version = "0.16.0"
-source = "git+https://github.com/apezord/rust-dogecoincore-rpc#03933810dec7844ee580c127fa953cba7d73623f"
+source = "git+https://github.com/apezord/rust-luckycoincore-rpc"
 dependencies = [
  "bitcoincore-rpc-json",
  "jsonrpc 0.13.0",
@@ -545,7 +545,7 @@ dependencies = [
 [[package]]
 name = "bitcoincore-rpc-json"
 version = "0.16.0"
-source = "git+https://github.com/apezord/rust-dogecoincore-rpc#03933810dec7844ee580c127fa953cba7d73623f"
+source = "git+https://github.com/apezord/rust-luckycoincore-rpc"
 dependencies = [
  "bitcoin",
  "serde",
