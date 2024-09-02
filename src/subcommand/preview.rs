@@ -42,7 +42,7 @@ impl Preview {
 
     let options = Options {
       chain_argument: Chain::Regtest,
-      luckycoin_data_dir: Some(dogecoin_data_dir),
+      luckycoin_data_dir: Some(luckycoin_data_dir),
       data_dir: Some(tmpdir.path().into()),
       rpc_url: Some(format!("127.0.0.1:{rpc_port}")),
       index_sats: true,
