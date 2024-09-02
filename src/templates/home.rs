@@ -52,7 +52,7 @@ mod tests {
         vec![inscription_id(1), inscription_id(2)],
       )
       .to_string(),
-      "<h2>Latest Shibescriptions</h2>
+      "<h2>Latest Luckscriptions</h2>
 <div class=thumbnails>
   <a href=/shibescription/1{64}i1><iframe .* src=/preview/1{64}i1></iframe></a>
   <a href=/shibescription/2{64}i2><iframe .* src=/preview/2{64}i2></iframe></a>

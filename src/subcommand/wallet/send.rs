@@ -26,7 +26,7 @@ impl Send {
     let index = Index::open(&options)?;
     index.update()?;
 
-    let client = options.dogecoin_rpc_client_for_wallet_command(false)?;
+    let client = options.luckycoin_rpc_client_for_wallet_command(false)?;
 
     let unspent_outputs = index.get_unspent_outputs(Wallet::load(&options)?)?;
 

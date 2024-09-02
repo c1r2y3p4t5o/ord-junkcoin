@@ -24,7 +24,7 @@ impl Chain {
 
   pub(crate) fn default_rpc_port(self) -> u16 {
     match self {
-      Self::Mainnet => 22555,
+      Self::Mainnet => 9918,
       Self::Regtest => 18332,
       Self::Signet => 38332,
       Self::Testnet => 44555,
