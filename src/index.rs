@@ -143,7 +143,7 @@ impl Index {
     let cookie_file = options.cookie_file()?;
 
     log::info!(
-      "Connecting to Luckycoin Core RPC server at {rpc_url} using credentials from `{}`",
+      "Connecting to Junkcoin Core RPC server at {rpc_url} using credentials from `{}`",
       cookie_file.display()
     );
 
@@ -288,7 +288,7 @@ impl Index {
     for outpoint in utxos.keys() {
       if outpoint_to_value.get(&outpoint.store())?.is_none() {
         return Err(anyhow!(
-          "output in Luckycoin Core wallet but not in ord index: {outpoint}"
+          "output in Junkcoin Core wallet but not in ord index: {outpoint}"
         ));
       }
     }

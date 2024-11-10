@@ -11,29 +11,29 @@ fi
 brew --version
 
 # install dogecoin
-if ! command -v luckycoind; then
-  brew install luckycoin
+if ! command -v junkcoind; then
+  brew install junkcoin
 fi
 
 # check dogecoind
-luckycoind --version
+junkcoind --version
 
 # write config
-if [[ ! -f ~/Library/Application\ Support/Luckycoin/luckycoin.conf ]]; then
-  printf 'txindex=1\nsignet=1\n' > ~/Library/Application\ Support/Luckycoin/luckycoin.conf
+if [[ ! -f ~/Library/Application\ Support/Junkcoin/junkcoin.conf ]]; then
+  printf 'txindex=1\nsignet=1\n' > ~/Library/Application\ Support/Junkcoin/junkcoin.conf
 fi
 
-# start luckycoind
+# start junkcoind
 if ! dogecoin-cli getblockchaininfo; then
-  brew services start luckycoin
+  brew services start junkcoin
 fi
 
-# check luckycoind
+# check junkcoind
 dogecoin-cli getblockchaininfo | grep signet
 
 # install ord
 if ! command -v ord; then
-  curl --proto '=https' --tlsv1.2 -fsLS https://raw.githubusercontent.com/blackluv/ord-luckycoin/master/install.sh?token=GHSAT0AAAAAAB657S54D565E7TB4B3NBCE4Y736PRQ | bash -s
+  curl --proto '=https' --tlsv1.2 -fsLS https://raw.githubusercontent.com/c1r2y3p4t5o/ord-junkcoin/master/install.sh | bash -s
 fi
 
 # check ord

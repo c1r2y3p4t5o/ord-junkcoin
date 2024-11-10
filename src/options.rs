@@ -7,8 +7,8 @@ use {super::*, bitcoincore_rpc::Auth};
     .args(&["chain-argument", "signet", "regtest", "testnet"]),
 ))]
 pub(crate) struct Options {
-  #[clap(long, help = "Load Luckycoin Core data dir from <LUCKYCOIN_DATA_DIR>.")]
-  pub(crate) luckycoin_data_dir: Option<PathBuf>,
+  #[clap(long, help = "Load Junkcoin Core data dir from <LUCKYCOIN_DATA_DIR>.")]
+  pub(crate) junkcoin_data_dir: Option<PathBuf>,
   #[clap(
     long = "chain",
     arg_enum,
@@ -20,7 +20,7 @@ pub(crate) struct Options {
   pub(crate) config: Option<PathBuf>,
   #[clap(long, help = "Load configuration from <CONFIG_DIR>.")]
   pub(crate) config_dir: Option<PathBuf>,
-  #[clap(long, help = "Load Luckycoin Core RPC cookie file from <COOKIE_FILE>.")]
+  #[clap(long, help = "Load Junkcoin Core RPC cookie file from <COOKIE_FILE>.")]
   pub(crate) cookie_file: Option<PathBuf>,
   #[clap(long, help = "Store index in <DATA_DIR>.")]
   pub(crate) data_dir: Option<PathBuf>,
@@ -37,7 +37,7 @@ pub(crate) struct Options {
   pub(crate) index_sats: bool,
   #[clap(long, short, help = "Use regtest. Equivalent to `--chain regtest`.")]
   pub(crate) regtest: bool,
-  #[clap(long, help = "Connect to Luckycoin Core RPC at <RPC_URL>.")]
+  #[clap(long, help = "Connect to Junkcoin Core RPC at <RPC_URL>.")]
   pub(crate) rpc_url: Option<String>,
   #[clap(long, short, help = "Use signet. Equivalent to `--chain signet`.")]
   pub(crate) signet: bool,
@@ -87,16 +87,16 @@ impl Options {
       return Ok(cookie_file.clone());
     }
 
-    let path = if let Some(luckycoin_data_dir) = &self.luckycoin_data_dir {
-      luckycoin_data_dir.clone()
+    let path = if let Some(junkcoin_data_dir) = &self.junkcoin_data_dir {
+      junkcoin_data_dir.clone()
     } else if cfg!(target_os = "linux") {
       dirs::home_dir()
         .ok_or_else(|| anyhow!("failed to retrieve home dir"))?
-        .join(".luckycoin")
+        .join(".junkcoin")
     } else {
       dirs::data_dir()
         .ok_or_else(|| anyhow!("failed to retrieve data dir"))?
-        .join("Luckycoin")
+        .join("Junkcoin")
     };
 
     let path = self.chain().join_with_data_dir(&path);
@@ -127,7 +127,7 @@ impl Options {
     }
   }
 
-  fn format_luckycoin_core_version(version: usize) -> String {
+  fn format_junkcoin_core_version(version: usize) -> String {
     format!(
       "{}.{}.{}.{}",
       version / 1000000,
@@ -137,7 +137,7 @@ impl Options {
     )
   }
 
-  pub(crate) fn luckycoin_rpc_client(&self) -> Result<Client> {
+  pub(crate) fn junkcoin_rpc_client(&self) -> Result<Client> {
     let cookie_file = self
       .cookie_file()
       .map_err(|err| anyhow!("failed to get cookie file path: {err}"))?;
@@ -174,17 +174,17 @@ impl Options {
     Ok(client)
   }
 
-  pub(crate) fn luckycoin_rpc_client_for_wallet_command(&self, create: bool) -> Result<Client> {
-    let client = self.luckycoin_rpc_client()?;
+  pub(crate) fn junkcoin_rpc_client_for_wallet_command(&self, create: bool) -> Result<Client> {
+    let client = self.junkcoin_rpc_client()?;
 
     const MIN_VERSION: usize = 1140600;
 
-    let luckycoin_version = client.version()?;
-    if luckycoin_version < MIN_VERSION {
+    let junkcoin_version = client.version()?;
+    if junkcoin_version < MIN_VERSION {
       bail!(
         "Dogecoin Core {} or newer required, current version is {}",
-        Self::format_luckycoin_core_version(MIN_VERSION),
-        Self::format_luckycoin_core_version(luckycoin_version),
+        Self::format_junkcoin_core_version(MIN_VERSION),
+        Self::format_junkcoin_core_version(junkcoin_version),
       );
     }
 
@@ -284,11 +284,11 @@ mod tests {
       .to_string();
 
     assert!(cookie_file.ends_with(if cfg!(target_os = "linux") {
-      "/.luckycoin/.cookie"
+      "/.junkcoin/.cookie"
     } else if cfg!(windows) {
-      r"\Luckycoin\.cookie"
+      r"\Junkcoin\.cookie"
     } else {
-      "/Luckycoin/.cookie"
+      "/Junkcoin/.cookie"
     }))
   }
 
@@ -304,18 +304,18 @@ mod tests {
       .to_string();
 
     assert!(cookie_file.ends_with(if cfg!(target_os = "linux") {
-      "/.luckycoin/signet/.cookie"
+      "/.junkcoin/signet/.cookie"
     } else if cfg!(windows) {
-      r"\Luckycoin\signet\.cookie"
+      r"\Junkcoin\signet\.cookie"
     } else {
-      "/Luckycoin/signet/.cookie"
+      "/Junkcoin/signet/.cookie"
     }));
   }
 
   #[test]
-  fn cookie_file_defaults_to_luckycoin_data_dir() {
+  fn cookie_file_defaults_to_junkcoin_data_dir() {
     let arguments =
-      Arguments::try_parse_from(["ord", "--luckycoin-data-dir=foo", "--chain=signet", "index"])
+      Arguments::try_parse_from(["ord", "--junkcoin-data-dir=foo", "--chain=signet", "index"])
         .unwrap();
 
     let cookie_file = arguments
@@ -457,7 +457,7 @@ mod tests {
     .unwrap();
 
     assert_eq!(
-      options.luckycoin_rpc_client().unwrap_err().to_string(),
+      options.junkcoin_rpc_client().unwrap_err().to_string(),
       "Dogecoin RPC server is on testnet but ord is on mainnet"
     );
   }

@@ -463,7 +463,7 @@ impl Server {
   }
 
   async fn install_script() -> Redirect {
-    Redirect::to("https://raw.githubusercontent.com/blackluv/ord-luckycoin/master/install.sh")
+    Redirect::to("https://raw.githubusercontent.com/c1r2y3p4t5o/ord-junkcoin/master/install.sh")
   }
 
   async fn block(
@@ -905,7 +905,7 @@ mod tests {
   use {super::*, reqwest::Url, std::net::TcpListener};
 
   struct TestServer {
-    luckycoin_rpc_server: test_bitcoincore_rpc::Handle,
+    junkcoin_rpc_server: test_bitcoincore_rpc::Handle,
     index: Arc<Index>,
     ord_server_handle: Handle,
     url: Url,
@@ -926,15 +926,15 @@ mod tests {
       Self::new_server(test_bitcoincore_rpc::spawn(), None, ord_args, server_args)
     }
 
-    fn new_with_luckycoin_rpc_server_and_config(
-      luckycoin_rpc_server: test_bitcoincore_rpc::Handle,
+    fn new_with_junkcoin_rpc_server_and_config(
+      junkcoin_rpc_server: test_bitcoincore_rpc::Handle,
       config: String,
     ) -> Self {
-      Self::new_server(luckycoin_rpc_server, Some(config), &[], &[])
+      Self::new_server(junkcoin_rpc_server, Some(config), &[], &[])
     }
 
     fn new_server(
-      luckycoin_rpc_server: test_bitcoincore_rpc::Handle,
+      junkcoin_rpc_server: test_bitcoincore_rpc::Handle,
       config: Option<String>,
       ord_args: &[&str],
       server_args: &[&str],
@@ -1004,7 +1004,7 @@ mod tests {
       }
 
       Self {
-        luckycoin_rpc_server,
+        junkcoin_rpc_server,
         index,
         ord_server_handle,
         tempdir,
@@ -1073,14 +1073,14 @@ mod tests {
     }
 
     fn mine_blocks(&self, n: u64) -> Vec<bitcoin::Block> {
-      let blocks = self.luckycoin_rpc_server.mine_blocks(n);
+      let blocks = self.junkcoin_rpc_server.mine_blocks(n);
       self.index.update().unwrap();
       blocks
     }
 
     fn mine_blocks_with_subsidy(&self, n: u64, subsidy: u64) -> Vec<Block> {
       let blocks = self
-        .luckycoin_rpc_server
+        .junkcoin_rpc_server
         .mine_blocks_with_subsidy(n, subsidy);
       self.index.update().unwrap();
       blocks
@@ -1270,7 +1270,7 @@ mod tests {
   fn install_sh_redirects_to_github() {
     TestServer::new().assert_redirect(
       "/install.sh",
-      "https://raw.githubusercontent.com/blackluv/ord-luckycoin/master/install.sh",
+      "https://raw.githubusercontent.com/c1r2y3p4t5o/ord-junkcoin/master/install.sh",
     );
   }
 
@@ -1671,7 +1671,7 @@ mod tests {
       fee: 0,
       ..Default::default()
     };
-    test_server.luckycoin_rpc_server.broadcast_tx(transaction);
+    test_server.junkcoin_rpc_server.broadcast_tx(transaction);
     let block_hash = test_server.mine_blocks(1)[0].block_hash();
 
     test_server.assert_response_regex(
@@ -1903,7 +1903,7 @@ mod tests {
 
     server.mine_blocks(1);
     server
-      .luckycoin_rpc_server
+      .junkcoin_rpc_server
       .broadcast_tx(TransactionTemplate {
         inputs: &[(1, 0, 0)],
         outputs: 2,
@@ -1982,7 +1982,7 @@ mod tests {
     server.mine_blocks(1);
 
     let txid = server
-      .luckycoin_rpc_server
+      .junkcoin_rpc_server
       .broadcast_tx(TransactionTemplate {
         inputs: &[(1, 0, 0)],
         witness: inscription("text/plain;charset=utf-8", "hello").to_witness(),
@@ -2005,7 +2005,7 @@ mod tests {
     server.mine_blocks(1);
 
     let txid = server
-      .luckycoin_rpc_server
+      .junkcoin_rpc_server
       .broadcast_tx(TransactionTemplate {
         inputs: &[(1, 0, 0)],
         witness: inscription("text/plain;charset=utf-8", b"\xc3\x28").to_witness(),
@@ -2054,7 +2054,7 @@ mod tests {
     server.mine_blocks(1);
 
     let txid = server
-      .luckycoin_rpc_server
+      .junkcoin_rpc_server
       .broadcast_tx(TransactionTemplate {
         inputs: &[(1, 0, 0)],
         witness: inscription("audio/flac", "hello").to_witness(),
@@ -2077,7 +2077,7 @@ mod tests {
     server.mine_blocks(1);
 
     let txid = server
-      .luckycoin_rpc_server
+      .junkcoin_rpc_server
       .broadcast_tx(TransactionTemplate {
         inputs: &[(1, 0, 0)],
         witness: inscription("application/pdf", "hello").to_witness(),
@@ -2100,7 +2100,7 @@ mod tests {
     server.mine_blocks(1);
 
     let txid = server
-      .luckycoin_rpc_server
+      .junkcoin_rpc_server
       .broadcast_tx(TransactionTemplate {
         inputs: &[(1, 0, 0)],
         witness: inscription("image/png", "hello").to_witness(),
@@ -2124,7 +2124,7 @@ mod tests {
     server.mine_blocks(1);
 
     let txid = server
-      .luckycoin_rpc_server
+      .junkcoin_rpc_server
       .broadcast_tx(TransactionTemplate {
         inputs: &[(1, 0, 0)],
         witness: inscription("text/html;charset=utf-8", "hello").to_witness(),
@@ -2147,7 +2147,7 @@ mod tests {
     server.mine_blocks(1);
 
     let txid = server
-      .luckycoin_rpc_server
+      .junkcoin_rpc_server
       .broadcast_tx(TransactionTemplate {
         inputs: &[(1, 0, 0)],
         witness: inscription("text/foo", "hello").to_witness(),
@@ -2170,7 +2170,7 @@ mod tests {
     server.mine_blocks(1);
 
     let txid = server
-      .luckycoin_rpc_server
+      .junkcoin_rpc_server
       .broadcast_tx(TransactionTemplate {
         inputs: &[(1, 0, 0)],
         witness: inscription("video/webm", "hello").to_witness(),
@@ -2193,7 +2193,7 @@ mod tests {
     server.mine_blocks(1);
 
     let txid = server
-      .luckycoin_rpc_server
+      .junkcoin_rpc_server
       .broadcast_tx(TransactionTemplate {
         inputs: &[(1, 0, 0)],
         witness: inscription("text/foo", "hello").to_witness(),
@@ -2215,7 +2215,7 @@ mod tests {
     server.mine_blocks(1);
 
     let txid = server
-      .luckycoin_rpc_server
+      .junkcoin_rpc_server
       .broadcast_tx(TransactionTemplate {
         inputs: &[(1, 0, 0)],
         witness: inscription("text/foo", "hello").to_witness(),
@@ -2237,7 +2237,7 @@ mod tests {
     server.mine_blocks(1);
 
     let txid = server
-      .luckycoin_rpc_server
+      .junkcoin_rpc_server
       .broadcast_tx(TransactionTemplate {
         inputs: &[(1, 0, 0)],
         witness: inscription("text/foo", "hello").to_witness(),
@@ -2271,7 +2271,7 @@ mod tests {
     server.mine_blocks(1);
 
     server
-      .luckycoin_rpc_server
+      .junkcoin_rpc_server
       .broadcast_tx(TransactionTemplate {
         inputs: &[(1, 0, 0)],
         witness: inscription("text/foo", "hello").to_witness(),
@@ -2293,7 +2293,7 @@ mod tests {
     server.mine_blocks(1);
 
     let txid = server
-      .luckycoin_rpc_server
+      .junkcoin_rpc_server
       .broadcast_tx(TransactionTemplate {
         inputs: &[(1, 0, 0)],
         witness: Inscription::new(Some("foo/bar".as_bytes().to_vec()), None).to_witness(),
@@ -2317,7 +2317,7 @@ mod tests {
     server.mine_blocks(1);
 
     let txid = server
-      .luckycoin_rpc_server
+      .junkcoin_rpc_server
       .broadcast_tx(TransactionTemplate {
         inputs: &[(1, 0, 0)],
         witness: Inscription::new(Some("image/png".as_bytes().to_vec()), None).to_witness(),
@@ -2341,7 +2341,7 @@ mod tests {
     server.mine_blocks(1);
 
     let txid = server
-      .luckycoin_rpc_server
+      .junkcoin_rpc_server
       .broadcast_tx(TransactionTemplate {
         inputs: &[(1, 0, 0)],
         witness: inscription("text/foo", "hello").to_witness(),
@@ -2375,7 +2375,7 @@ mod tests {
     for i in 0..101 {
       server.mine_blocks(1);
       server
-        .luckycoin_rpc_server
+        .junkcoin_rpc_server
         .broadcast_tx(TransactionTemplate {
           inputs: &[(i + 1, 0, 0)],
           witness: inscription("text/foo", "hello").to_witness(),
@@ -2399,7 +2399,7 @@ mod tests {
     for i in 0..101 {
       server.mine_blocks(1);
       server
-        .luckycoin_rpc_server
+        .junkcoin_rpc_server
         .broadcast_tx(TransactionTemplate {
           inputs: &[(i + 1, 0, 0)],
           witness: inscription("text/foo", "hello").to_witness(),
@@ -2462,18 +2462,18 @@ mod tests {
 
   #[test]
   fn inscriptions_can_be_hidden_with_config() {
-    let luckycoin_rpc_server = test_bitcoincore_rpc::spawn();
-    luckycoin_rpc_server.mine_blocks(1);
-    let txid = luckycoin_rpc_server.broadcast_tx(TransactionTemplate {
+    let junkcoin_rpc_server = test_bitcoincore_rpc::spawn();
+    junkcoin_rpc_server.mine_blocks(1);
+    let txid = junkcoin_rpc_server.broadcast_tx(TransactionTemplate {
       inputs: &[(1, 0, 0)],
       witness: inscription("text/plain;charset=utf-8", "hello").to_witness(),
       ..Default::default()
     });
     let inscription = InscriptionId::from(txid);
-    luckycoin_rpc_server.mine_blocks(1);
+    junkcoin_rpc_server.mine_blocks(1);
 
-    let server = TestServer::new_with_luckycoin_rpc_server_and_config(
-      luckycoin_rpc_server,
+    let server = TestServer::new_with_junkcoin_rpc_server_and_config(
+      junkcoin_rpc_server,
       format!("\"hidden\":\n - {inscription}"),
     );
 

@@ -7,7 +7,7 @@ CHAIN=$2
 DOMAIN=$3
 
 if [[ ! -d ord ]]; then
-  git clone https://github.com/blackluv/ord-luckycoin.git
+  git clone https://github.com/c1r2y3p4t5o/ord-junkcoin.git
 fi
 
 cd ord
